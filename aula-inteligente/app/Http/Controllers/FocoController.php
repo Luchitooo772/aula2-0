@@ -21,9 +21,16 @@ class FocoController extends Controller
     public function store(Request $request) {
         $request->validate([
             'aula_id' => 'required|exists:aulas,id',
-            'estado' => 'required|boolean'
+            'estado' => 'required|boolean',
+            'intensidad' => 'required|integer|min:0|max:100', // Validamos que sea un entero entre 0 y 100
         ]);
-        Foco::create($request->all());
+        
+        $foco = Foco::create([
+            'aula_id' => $request->aula_id,
+            'estado' => $request->estado,
+            'intensidad' => $request->intensidad,
+        ]);
+        
         return redirect()->route('focos.index')->with('success', 'Foco creado correctamente');
     }
 
@@ -35,9 +42,16 @@ class FocoController extends Controller
     public function update(Request $request, Foco $foco) {
         $request->validate([
             'aula_id' => 'required|exists:aulas,id',
-            'estado' => 'required|boolean'
+            'estado' => 'required|boolean',
+            'intensidad' => 'required|integer|min:0|max:100', // Validamos que sea un entero entre 0 y 100
         ]);
-        $foco->update($request->all());
+        
+        $foco->update([
+            'aula_id' => $request->aula_id,
+            'estado' => $request->estado,
+            'intensidad' => $request->intensidad,
+        ]);
+        
         return redirect()->route('focos.index')->with('success', 'Foco actualizado correctamente');
     }
 

@@ -13,10 +13,10 @@
     </select>
     <br>
     <label>Estado:</label>
-    <select name="estado" required>
-        <option value="Abierta" @if($cortina->estado=='Abierta') selected @endif>Abierta</option>
-        <option value="Cerrada" @if($cortina->estado=='Cerrada') selected @endif>Cerrada</option>
-    </select>
+<select name="estado" required>
+    <option value="1" @if($cortina->estado) selected @endif>Abierta</option>
+    <option value="0" @if(!$cortina->estado) selected @endif>Cerrada</option>
+</select>
     <br>
     <button type="submit">Actualizar</button>
 </form>

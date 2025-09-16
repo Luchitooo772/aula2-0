@@ -30,4 +30,10 @@ class Aula extends Model
     public function cortinas() {
         return $this->hasMany(Cortina::class);
     }
+    
+    // Nueva relación de muchos a muchos con Materia
+    public function materias()
+    {
+        return $this->belongsToMany(Materia::class);
+    }
 }

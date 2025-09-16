@@ -9,13 +9,21 @@ class Materia extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nombre', 'docente_id'];
+    protected $fillable = [
+        'nombre',
+        'docente_id',
+        'horario',
+        'dias',
+    ];
 
-    public function docente() {
+    public function docente()
+    {
         return $this->belongsTo(Docente::class);
     }
-
-    public function reservas() {
-        return $this->hasMany(Reserva::class);
+    
+    // Nueva relación de muchos a muchos con Aula
+    public function aulas()
+    {
+        return $this->belongsToMany(Aula::class);
     }
 }

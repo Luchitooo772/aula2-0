@@ -1,50 +1,65 @@
 @extends('layouts.app')
 
-@section('title','Docentes')
+@section('title', 'Docentes')
 
 @section('content')
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h2 class="mb-0">Docentes</h2>
-    <a href="{{ route('docentes.create') }}" class="btn btn-primary">Nuevo docente</a>
-</div>
-
-<div class="card p-3">
-    <div class="table-responsive">
-        <table class="table table-striped table-hover align-middle">
-            <thead class="table-primary">
-                <tr>
-                    <th>#</th>
-                    <th>Nombre</th>
-                    <th>Email</th>
-                    <th class="text-center">Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse ($docentes as $docente)
-                    <tr>
-                        <td>{{ $docente->id }}</td>
-                        <td>{{ $docente->nombre }}</td>
-                        <td>{{ $docente->email }}</td>
-                        <td class="text-center">
-                            <a href="{{ route('docentes.show',$docente) }}" class="btn btn-sm btn-outline-secondary">Ver</a>
-                            <a href="{{ route('docentes.edit',$docente) }}" class="btn btn-sm btn-outline-warning">Editar</a>
-                            <form action="{{ route('docentes.destroy',$docente) }}" method="POST" class="d-inline"
-                                  onsubmit="return confirm('¿Seguro que deseas eliminar este docente?')">
-                                @csrf @method('DELETE')
-                                <button class="btn btn-sm btn-outline-danger">Eliminar</button>
-                            </form>
-                        </td>
-                    </tr>
-                @empty
-                    <tr><td colspan="4" class="text-center text-muted">No hay docentes cargados.</td></tr>
-                @endforelse
-            </tbody>
-        </table>
+<div class="container my-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="fw-bold" style="color: #5D7B6F;">Docentes</h1>
+        <a href="{{ route('docentes.create') }}" class="btn btn-primary" style="background-color: #5D7B6F; border-color: #5D7B6F; border-radius: 0.75rem;">
+            <i class="fas fa-plus-circle me-2"></i>Nuevo docente
+        </a>
     </div>
 
-    {{-- Paginación si usás ->paginate() en el controlador --}}
+    @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
+    <div class="card p-4 shadow-lg rounded-3">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead style="background-color: #BDD4B8; color: #5D7B6F;">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Email</th>
+                        <th scope="col" class="text-center">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($docentes as $docente)
+                        <tr>
+                            <td>{{ $docente->id }}</td>
+                            <td>{{ $docente->nombre }}</td>
+                            <td>{{ $docente->email }}</td>
+                            <td class="text-center">
+                                <a href="{{ route('docentes.edit',$docente) }}" class="btn btn-sm btn-outline-info" style="border-radius: 0.5rem;">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <form action="{{ route('docentes.destroy',$docente) }}" method="POST" class="d-inline"
+                                    onsubmit="return confirm('¿Seguro que deseas eliminar este docente?')">
+                                    @csrf @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-outline-danger" style="border-radius: 0.5rem;">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="4" class="text-center text-muted">No hay docentes cargados.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
+
     @if(method_exists($docentes, 'links'))
-        <div class="mt-2">
+        <div class="mt-4 d-flex justify-content-center">
             {{ $docentes->links() }}
         </div>
     @endif

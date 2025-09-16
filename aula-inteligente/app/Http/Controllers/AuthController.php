@@ -9,7 +9,7 @@ use App\Models\User;
 
 class AuthController extends Controller
 {
-    // Mostrar formularios
+    // Mostrar formularios de autenticación
     public function showLoginForm()
     {
         return view('auth.login');
@@ -20,7 +20,7 @@ class AuthController extends Controller
         return view('auth.register');
     }
 
-    // Procesar registro
+    // Procesar registro de usuario
     public function register(Request $request)
     {
         $request->validate([
@@ -38,10 +38,10 @@ class AuthController extends Controller
         Auth::login($user);
         $request->session()->regenerate();
 
-        return redirect()->route('aulas.index')->with('success','¡Registro exitoso! Bienvenido.');
+        return redirect()->route('home')->with('success','¡Registro exitoso! Bienvenido.');
     }
 
-    // Procesar login
+    // Procesar inicio de sesión
     public function login(Request $request)
     {
         $credentials = $request->validate([
@@ -51,7 +51,7 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
-            return redirect()->intended(route('aulas.index'))->with('success','Has iniciado sesión.');
+            return redirect()->intended(route('home'))->with('success','Has iniciado sesión.');
         }
 
         return redirect()->route('login.form')
@@ -67,5 +67,11 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
 
         return redirect()->route('login.form')->with('success','Sesión cerrada.');
+    }
+
+    // Mostrar página de inicio (home)
+    public function showHome()
+    {
+        return view('home');
     }
 }

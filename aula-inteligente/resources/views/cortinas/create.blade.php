@@ -12,11 +12,11 @@
         @endforeach
     </select>
     <br>
-    <label>Estado:</label>
-    <select name="estado" required>
-        <option value="Abierta">Abierta</option>
-        <option value="Cerrada">Cerrada</option>
-    </select>
+  <label>Estado:</label>
+<select name="estado" required>
+    <option value="1">Abierta</option>
+    <option value="0">Cerrada</option>
+</select>
     <br>
     <button type="submit">Guardar</button>
 </form>
